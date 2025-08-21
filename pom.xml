@@ -32,31 +32,8 @@ This XML file does not appear to have any style information associated with it. 
 <artifactId>spring-boot-maven-plugin</artifactId>
 <configuration>
 <image>
-<name>saiupadhyayula007/new-${project.artifactId}</name>
-<builder>dashaun/builder:tiny</builder>
-<publish>false</publish>
-</image>
-<!--           <docker> -->
-<!--             <publishRegistry> -->
-<!--               <username>saiupadhyayula007</username> -->
-<!--               <password>${dockerPassword}</password> -->
-<!--             </publishRegistry> -->
-<!--           </docker> -->
-<excludes>
-<exclude>
-<groupId>org.projectlombok</groupId>
-<artifactId>lombok</artifactId>
-</exclude>
-</excludes>
-</configuration>
-</plugin>
-<plugin>
-<groupId>org.springframework.boot</groupId>
-<artifactId>spring-boot-maven-plugin</artifactId>
-<configuration>
-<image>
 <!--  This names the image. You can remove 'saiupadhyayula007/' if you don't want a username prefix for local images.  -->
-<name>my-${project.artifactId}</name>
+<name>salindadocker/project-${project.artifactId}</name>
 <!--  This builder is crucial for Apple Silicon machines to ensure architecture compatibility.  -->
 <!--             <builder>dashaun/builder:tiny</builder> -->
 <!--  Set to false to build images locally without pushing to Docker Hub.  -->
