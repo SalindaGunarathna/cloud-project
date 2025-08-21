@@ -1,40 +1,62 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>org.springframework.boot</groupId>
-    <artifactId>spring-boot-starter-parent</artifactId>
-    <version>3.2.4</version>
-    <relativePath/> <!-- lookup parent from repository -->
-  </parent>
-  <groupId>com.programming.techie</groupId>
-  <artifactId>spring-boot-3-microservices</artifactId>
-  <version>1.0-SNAPSHOT</version>
-  <packaging>pom</packaging>
-
-  <name>spring-boot-3-microservices</name>
-  <modules>
-    <module>api-gateway</module>
-    <module>product-service</module>
-    <module>order-service</module>
-    <module>inventory-service</module>
-    <module>notification-service</module>
-  </modules>
-
-  <properties>
-    <java.version>21</java.version>
-    <spring-cloud.version>2023.0.1</spring-cloud.version>
-    <dockerPassword>${dockerPassword}</dockerPassword>
-  </properties>
-  <build>
-    <plugins>
-      <plugin>
+This XML file does not appear to have any style information associated with it. The document tree is shown below.
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<modelVersion>4.0.0</modelVersion>
+<parent>
+<groupId>org.springframework.boot</groupId>
+<artifactId>spring-boot-starter-parent</artifactId>
+<version>3.2.4</version>
+<relativePath/>
+<!--  lookup parent from repository  -->
+</parent>
+<groupId>com.programming.techie</groupId>
+<artifactId>spring-boot-3-microservices</artifactId>
+<version>1.0-SNAPSHOT</version>
+<packaging>pom</packaging>
+<name>spring-boot-3-microservices</name>
+<modules>
+<module>api-gateway</module>
+<module>product-service</module>
+<module>order-service</module>
+<module>inventory-service</module>
+<module>notification-service</module>
+</modules>
+<properties>
+<java.version>21</java.version>
+<spring-cloud.version>2023.0.1</spring-cloud.version>
+<!--     <dockerPassword>${dockerPassword}</dockerPassword> -->
+</properties>
+<build>
+<plugins>
+<plugin>
+<groupId>org.springframework.boot</groupId>
+<artifactId>spring-boot-maven-plugin</artifactId>
+<configuration>
+<image>
+<name>saiupadhyayula007/new-${project.artifactId}</name>
+<builder>dashaun/builder:tiny</builder>
+<publish>false</publish>
+</image>
+<!--           <docker> -->
+<!--             <publishRegistry> -->
+<!--               <username>saiupadhyayula007</username> -->
+<!--               <password>${dockerPassword}</password> -->
+<!--             </publishRegistry> -->
+<!--           </docker> -->
+<excludes>
+<exclude>
+<groupId>org.projectlombok</groupId>
+<artifactId>lombok</artifactId>
+</exclude>
+</excludes>
+</configuration>
+</plugin>
+<plugin>
 <groupId>org.springframework.boot</groupId>
 <artifactId>spring-boot-maven-plugin</artifactId>
 <configuration>
 <image>
 <!--  This names the image. You can remove 'saiupadhyayula007/' if you don't want a username prefix for local images.  -->
-<name>salindadocker/project-${project.artifactId}</name>
+<name>my-${project.artifactId}</name>
 <!--  This builder is crucial for Apple Silicon machines to ensure architecture compatibility.  -->
 <!--             <builder>dashaun/builder:tiny</builder> -->
 <!--  Set to false to build images locally without pushing to Docker Hub.  -->
@@ -43,7 +65,6 @@
 <!--  The <docker> section can remain commented out or be removed, as <publish>false</publish> handles the push.  -->
 </configuration>
 </plugin>
-
-    </plugins>
-  </build>
+</plugins>
+</build>
 </project>
