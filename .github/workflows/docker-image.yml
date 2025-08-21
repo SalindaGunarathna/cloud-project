@@ -1,0 +1,47 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout repository
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Step 2: Set up JDK 21 for backend services
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      # Step 3: Log in to Docker Hub
+      - name: Log in to Docker Hub
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+
+      # Step 4: Build and push backend microservices
+      - name: Build and Push Backend Services
+        run: |
+          mvn clean install -DskipTests
+          mvn spring-boot:build-image -DskipTests
+          docker push salindadocker/project-product-service:latest
+          docker push salindadocker/project-order-service:latest
+          docker push salindadocker/project-inventory-service:latest
+          docker push salindadocker/project-api-gateway:latest
+          docker push salindadocker/project-notification-service:latest
+
+      # Step 5: Build and push frontend application
+      - name: Build and Push Frontend
+        working-directory: ./frontend
+        run: |
+          npm install
+          npm run build --prod
+          docker build -t salindadocker/project-frontend:latest -f Dockerfile .
+          docker push salindadocker/project-frontend:latest
