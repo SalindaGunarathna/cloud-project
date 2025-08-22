@@ -40,7 +40,7 @@ public class OrderService {
             orderPlacedEvent.setLastName(orderRequest.userDetails().lastName());
             log.info("Start - Sending OrderPlacedEvent {} to Kafka topic order-placed", orderPlacedEvent);
             kafkaTemplate.send("order-placed", orderPlacedEvent);
-            log.info("End - Sending OrderPlacedEvent {} to Kafka topic order-placed", orderPlacedEvent);
+            log.info(" OrderPlacedEvent {} to Kafka topic order-placed successfull ", orderPlacedEvent);
         } else {
             throw new RuntimeException("Product with SkuCode " + orderRequest.skuCode() + " is not in stock");
         }

@@ -3,11 +3,10 @@ kind: Deployment
 metadata:
   name: api-gateway
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: api-gateway
-    # Rolling Update Strategy
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -15,7 +14,6 @@ spec:
       maxSurge: 1           # Extra pods during rolling update
   minReadySeconds: 10       # Wait time before considering pod ready
   revisionHistoryLimit: 5   # Keep deployment history for rollbacks
-
   template:
     metadata:
       labels:
@@ -24,14 +22,17 @@ spec:
       containers:
         - name: api-gateway
           image: salindadocker/project-api-gateway:latest
-#          imagePullPolicy: IfNotPresent
           imagePullPolicy: Always
+          resources:
+            requests:
+              memory: "1Gi"
+              cpu: "500m"
+            limits:
+              memory: "2Gi"
+              cpu: "1000m"
           ports:
-          - containerPort: 9000
-            name: http
-
-          
-          # Health Probes
+            - containerPort: 9000
+              name: http
           readinessProbe:
             httpGet:
               path: /actuator/health/readiness
@@ -40,7 +41,6 @@ spec:
             periodSeconds: 10
             timeoutSeconds: 5
             failureThreshold: 3
-          
           livenessProbe:
             httpGet:
               path: /actuator/health/liveness
@@ -49,19 +49,17 @@ spec:
             periodSeconds: 20
             timeoutSeconds: 5
             failureThreshold: 3
-          
           startupProbe:
             httpGet:
               path: /actuator/health
               port: 9000
             initialDelaySeconds: 15
             periodSeconds: 10
-            failureThreshold: 40  # Gateway might need more startup time
-          
+            failureThreshold: 40
           lifecycle:
             preStop:
               exec:
-                command: ["/bin/sh", "-c", "sleep 20"]  # Longer for gateway
+                command: ["/bin/sh", "-c", "sleep 20"]
           env:
             - name: SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER-URI
               valueFrom:
@@ -93,8 +91,6 @@ spec:
                 configMapKeyRef:
                   key: INVENTORY_SERVICE_URL
                   name: common-config
-
-            # Enable Spring Boot health probes
             - name: MANAGEMENT_ENDPOINT_HEALTH_PROBES_ENABLED
               value: "true"
             - name: MANAGEMENT_HEALTH_LIVENESSSTATE_ENABLED

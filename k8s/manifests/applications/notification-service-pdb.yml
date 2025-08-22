@@ -6,4 +6,4 @@ spec:
   selector:
     matchLabels:
       app: notification-service
-  minAvailable: 2
+  minAvailable: 1

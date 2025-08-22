@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: order-service
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: order-service
@@ -28,11 +28,11 @@ spec:
                   # Resource Management
           resources:
             requests:
-              memory: "256Mi"
-              cpu: "250m"
-            limits:
-              memory: "512Mi"
+              memory: "1Gi"
               cpu: "500m"
+            limits:
+              memory: "2Gi"
+              cpu: "1000m"
           
           # Health Probes
           readinessProbe:
