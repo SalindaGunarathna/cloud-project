@@ -16,6 +16,6 @@ public class InventoryService {
         log.info(" Start -- Received request to check stock for skuCode {}, with quantity {}", skuCode, quantity);
         boolean isInStock = inventoryRepository.existsBySkuCodeAndQuantityIsGreaterThanEqual(skuCode, quantity);
         log.info(" End -- Product with skuCode {}, and quantity {}, is in stock - {}", skuCode, quantity, isInStock);
-        return isInStock;
+        return true;
     }
 }
