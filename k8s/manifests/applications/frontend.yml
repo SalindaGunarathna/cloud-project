@@ -6,7 +6,7 @@ metadata:
     app: frontend
     version: v1
 spec:
-  replicas: 2  # Frontend needs availability too
+  replicas: 3  # Frontend needs availability too
   selector:
     matchLabels:
       app: frontend

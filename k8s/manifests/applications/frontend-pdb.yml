@@ -6,4 +6,4 @@ spec:
   selector:
     matchLabels:
       app: frontend
-  minAvailable: 1
+  minAvailable: 2
