@@ -1,4 +1,4 @@
-name: Docker Image CI
+name: Selective Docker Image CI
 
 on:
   push:
@@ -7,41 +7,165 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build:
+  # Job to detect which services have changed
+  detect-changes:
     runs-on: ubuntu-latest
-
+    permissions:
+      pull-requests: read
+    outputs:
+      product-service: ${{ steps.filter.outputs.product-service }}
+      order-service: ${{ steps.filter.outputs.order-service }}
+      inventory-service: ${{ steps.filter.outputs.inventory-service }}
+      api-gateway: ${{ steps.filter.outputs.api-gateway }}
+      notification-service: ${{ steps.filter.outputs.notification-service }}
+      frontend: ${{ steps.filter.outputs.frontend }}
+      # Output list of changed services for matrix build
+      backend-services: ${{ steps.filter.outputs.changes }}
     steps:
-      # Step 1: Checkout repository
+      - uses: actions/checkout@v4
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            product-service:
+              - 'product-service/**'
+            order-service:
+              - 'order-service/**'
+            inventory-service:
+              - 'inventory-service/**'
+            api-gateway:
+              - 'api-gateway/**'
+            notification-service:
+              - 'notification-service/**'
+            frontend:
+              - 'frontend/**'
+
+  # Setup common environment for backend services
+  setup-backend:
+    runs-on: ubuntu-latest
+    needs: detect-changes
+    if: ${{ needs.detect-changes.outputs.backend-services != '[]' }}
+    steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
-      # Step 2: Set up JDK 21 for backend services
+      
       - name: Set up JDK 21
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '21'
-
-      # Step 3: Log in to Docker Hub
+      
+      - name: Cache Maven dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+      
       - name: Log in to Docker Hub
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
-      # Step 4: Build and push backend microservices
-      - name: Build and Push Backend Services
+  # Matrix job to build only changed backend services
+  build-backend-services:
+    runs-on: ubuntu-latest
+    needs: [detect-changes, setup-backend]
+    if: ${{ needs.detect-changes.outputs.backend-services != '[]' }}
+    strategy:
+      matrix:
+        service: ${{ fromJSON(needs.detect-changes.outputs.backend-services) }}
+      fail-fast: false
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+      
+      - name: Cache Maven dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+      
+      - name: Log in to Docker Hub
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+      
+      - name: Build and Push ${{ matrix.service }}
         run: |
-          mvn clean install -DskipTests
-          mvn spring-boot:build-image -DskipTests
-          docker push salindadocker/project-product-service:latest
-          docker push salindadocker/project-order-service:latest
-          docker push salindadocker/project-inventory-service:latest
-          docker push salindadocker/project-api-gateway:latest
-          docker push salindadocker/project-notification-service:latest
+          # Install parent POM first
+          mvn clean install -N -DskipTests
+          
+          # Build specific service Docker image
+          mvn spring-boot:build-image -pl ${{ matrix.service }} -DskipTests \
+            -Dspring-boot.build-image.imageName=salindadocker/project-${{ matrix.service }}:latest
+          
+          # Push the image
+          docker push salindadocker/project-${{ matrix.service }}:latest
 
-      # Step 5: Build and push frontend application
+  # Job to build frontend only if frontend files changed
+  build-frontend:
+    runs-on: ubuntu-latest
+    needs: detect-changes
+    if: ${{ needs.detect-changes.outputs.frontend == 'true' }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
+      
+      - name: Log in to Docker Hub
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+      
       - name: Build and Push Frontend
         working-directory: ./frontend
         run: |
-          npm install
+          npm ci
           npm run build --prod
           docker build -t salindadocker/project-frontend:latest -f Dockerfile .
           docker push salindadocker/project-frontend:latest
+
+  # Summary job to show what was built
+  build-summary:
+    runs-on: ubuntu-latest
+    needs: [detect-changes, build-backend-services, build-frontend]
+    if: always()
+    steps:
+      - name: Build Summary
+        run: |
+          echo "## Build Summary" >> $GITHUB_STEP_SUMMARY
+          echo "### Changed Services:" >> $GITHUB_STEP_SUMMARY
+          
+          if [ "${{ needs.detect-changes.outputs.product-service }}" == "true" ]; then
+            echo "- ✅ Product Service" >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          if [ "${{ needs.detect-changes.outputs.order-service }}" == "true" ]; then
+            echo "- ✅ Order Service" >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          if [ "${{ needs.detect-changes.outputs.inventory-service }}" == "true" ]; then
+            echo "- ✅ Inventory Service" >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          if [ "${{ needs.detect-changes.outputs.api-gateway }}" == "true" ]; then
+            echo "- ✅ API Gateway" >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          if [ "${{ needs.detect-changes.outputs.notification-service }}" == "true" ]; then
+            echo "- ✅ Notification Service" >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          if [ "${{ needs.detect-changes.outputs.frontend }}" == "true" ]; then
+            echo "- ✅ Frontend" >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          if [ "${{ needs.detect-changes.outputs.backend-services }}" == "[]" ] && [ "${{ needs.detect-changes.outputs.frontend }}" != "true" ]; then
+            echo "- ℹ️ No services changed - no builds triggered" >> $GITHUB_STEP_SUMMARY
+          fi
