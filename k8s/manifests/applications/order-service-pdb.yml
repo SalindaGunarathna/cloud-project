@@ -1,0 +1,9 @@
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: order-service-pdb
+spec:
+  selector:
+    matchLabels:
+      app: order-service
+  minAvailable: 2

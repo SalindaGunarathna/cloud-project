@@ -1,0 +1,9 @@
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: notification-service-pdb
+spec:
+  selector:
+    matchLabels:
+      app: notification-service
+  minAvailable: 2

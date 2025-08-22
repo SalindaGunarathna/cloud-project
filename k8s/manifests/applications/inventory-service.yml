@@ -3,10 +3,19 @@ kind: Deployment
 metadata:
   name: inventory-service
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       app: inventory-service
+ # Rolling Update Strategy
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1     # Maximum pods unavailable during update
+      maxSurge: 1           # Extra pods during rolling update
+  minReadySeconds: 10       # Wait time before considering pod ready
+  revisionHistoryLimit: 5   # Keep deployment history for rollbacks
+
   template:
     metadata:
       labels:
@@ -14,7 +23,53 @@ spec:
     spec:
       containers:
         - name: inventory-service
-          image: saiupadhyayula007/new-inventory-service:latest
+          image: salindadocker/project-inventory-service:latest
+          #          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
+                  # Resource Management
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+          
+          # Health Probes
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: 8082
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
+            successThreshold: 1
+          
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: 8082
+            initialDelaySeconds: 60
+            periodSeconds: 20
+            timeoutSeconds: 5
+            failureThreshold: 3
+          
+          # Startup Probe (for slow-starting apps)
+          startupProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8082
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 30  # Allow up to 5 minutes for startup
+          
+          # Graceful Shutdown
+          lifecycle:
+            preStop:
+              exec:
+                command: ["/bin/sh", "-c", "sleep 15"]
           env:
             - name: SPRING_DATASOURCE_URL
               valueFrom:
@@ -31,6 +86,13 @@ spec:
                 configMapKeyRef:
                   key: MANAGEMENT_ZIPKIN_TRACING_ENDPOINT
                   name: common-config
+                      # Enable Spring Boot health probes
+            - name: MANAGEMENT_ENDPOINT_HEALTH_PROBES_ENABLED
+              value: "true"
+            - name: MANAGEMENT_HEALTH_LIVENESSSTATE_ENABLED
+              value: "true"
+            - name: MANAGEMENT_HEALTH_READINESSSTATE_ENABLED
+              value: "true"
 ---
 apiVersion: v1
 kind: Service

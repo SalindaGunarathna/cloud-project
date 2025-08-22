@@ -1,0 +1,9 @@
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: inventory-service-pdb
+spec:
+  selector:
+    matchLabels:
+      app: inventory-service
+  minAvailable: 2

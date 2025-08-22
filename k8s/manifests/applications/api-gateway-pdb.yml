@@ -1,0 +1,9 @@
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: api-gateway-pdb
+spec:
+  selector:
+    matchLabels:
+      app: api-gateway
+  minAvailable: 1   # replicas: 2, so at least one stays up
