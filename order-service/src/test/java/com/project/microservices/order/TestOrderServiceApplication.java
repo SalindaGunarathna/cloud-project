@@ -1,6 +1,5 @@
-package java.com.techie.microservices.inventory;
+package com.project.microservices.order;
 
-import com.project.microservices.inventory.InventoryServiceApplication;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
@@ -9,7 +8,7 @@ import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.utility.DockerImageName;
 
 @TestConfiguration(proxyBeanMethods = false)
-public class TestInventoryServiceApplication {
+public class TestOrderServiceApplication {
 
 	@Bean
 	@ServiceConnection
@@ -18,7 +17,7 @@ public class TestInventoryServiceApplication {
 	}
 
 	public static void main(String[] args) {
-		SpringApplication.from(InventoryServiceApplication::main).with(TestInventoryServiceApplication.class).run(args);
+		SpringApplication.from(OrderServiceApplication::main).with(TestOrderServiceApplication.class).run(args);
 	}
 
 }

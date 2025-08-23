@@ -2,9 +2,9 @@ name: Selective Docker Image CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "artifactid" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "artifactid" ]
 
 jobs:
   # Job to detect which services have changed
