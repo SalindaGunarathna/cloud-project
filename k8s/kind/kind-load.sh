@@ -16,35 +16,33 @@ docker pull salindadocker/project-order-service:latest
 docker pull salindadocker/project-inventory-service:latest
 docker pull salindadocker/project-notification-service:latest
 docker pull salindadocker/project-frontend:latest
+docker pull registry.k8s.io/ingress-nginx/controller:v1.13.1
+docker pull registry.k8s.io/ingress-nginx/kube-webhook-certgen:v1.6.0
 
 
-kind load docker-image -n microservices mongo:7.0.5
-kind load docker-image -n microservices mysql:8.3.0
-kind load docker-image -n microservices confluentinc/cp-zookeeper:7.5.0
-kind load docker-image -n microservices confluentinc/cp-kafka:7.5.0
-kind load docker-image -n microservices confluentinc/cp-schema-registry:7.5.0
-kind load docker-image -n microservices provectuslabs/kafka-ui:latest
-kind load docker-image -n microservices mysql:8
-kind load docker-image -n microservices quay.io/keycloak/keycloak:24.0.1
-kind load docker-image -n microservices grafana/loki:main
-kind load docker-image -n microservices prom/prometheus:v2.46.0
-kind load docker-image -n microservices grafana/tempo:2.2.2
-kind load docker-image -n microservices grafana/grafana:10.1.0
-#kind load docker-image -n microservices saiupadhyayula007/new-api-gateway:latest
-#kind load docker-image -n microservices saiupadhyayula007/new-product-service:latest
-#kind load docker-image -n microservices saiupadhyayula007/new-order-service:latest
-#kind load docker-image -n microservices saiupadhyayula007/new-inventory-service:latest
-#kind load docker-image -n microservices saiupadhyayula007/new-notification-service:latest
+kind load docker-image -n microservices-cloud-project mongo:7.0.5
+kind load docker-image -n microservices-cloud-project mysql:8.3.0
+kind load docker-image -n microservices-cloud-project confluentinc/cp-zookeeper:7.5.0
+kind load docker-image -n microservices-cloud-project confluentinc/cp-kafka:7.5.0
+kind load docker-image -n microservices-cloud-project confluentinc/cp-schema-registry:7.5.0
+kind load docker-image -n microservices-cloud-project provectuslabs/kafka-ui:latest
+kind load docker-image -n microservices-cloud-project mysql:8
+kind load docker-image -n microservices-cloud-project quay.io/keycloak/keycloak:24.0.1
+kind load docker-image -n microservices-cloud-project grafana/loki:main
+kind load docker-image -n microservices-cloud-project prom/prometheus:v2.46.0
+kind load docker-image -n microservices-cloud-project grafana/tempo:2.2.2
+kind load docker-image -n microservices-cloud-project grafana/grafana:10.1.0
+# Load into Kind
+kind load docker-image --name microservices-cloud-project registry.k8s.io/ingress-nginx/controller:v1.13.1
+kind load docker-image --name microservices-cloud-project registry.k8s.io/ingress-nginx/kube-webhook-certgen:v1.6.0
 
-#kind load docker-image -n microservices my-api-gateway:latest
-#kind load docker-image -n microservices my-product-service:latest
-#kind load docker-image -n microservices my-order-service:latest
-#kind load docker-image -n microservices my-inventory-service:latest
-#kind load docker-image -n microservices my-notification-service:latest
+kubectl get ns ingress-nginx || kubectl create namespace ingress-nginx
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/kind/deploy.yaml
+kubectl get secret -n ingress-nginx ingress-nginx-admission -o yaml >/tmp/webhook-secret.yaml
 
-kind load docker-image -n microservices salindadocker/project-api-gateway:latest
-kind load docker-image -n microservices salindadocker/project-product-service:latest
-kind load docker-image -n microservices salindadocker/project-order-service:latest
-kind load docker-image -n microservices salindadocker/project-inventory-service:latest
-kind load docker-image -n microservices salindadocker/project-notification-service:latest
-kind load docker-image -n microservices salindadocker/project-frontend:latest
+kind load docker-image -n microservices-cloud-project salindadocker/project-api-gateway:latest
+kind load docker-image -n microservices-cloud-project salindadocker/project-product-service:latest
+kind load docker-image -n microservices-cloud-project salindadocker/project-order-service:latest
+kind load docker-image -n microservices-cloud-project salindadocker/project-inventory-service:latest
+kind load docker-image -n microservices-cloud-project salindadocker/project-notification-service:latest
+kind load docker-image -n microservices-cloud-project salindadocker/project-frontend:latest
