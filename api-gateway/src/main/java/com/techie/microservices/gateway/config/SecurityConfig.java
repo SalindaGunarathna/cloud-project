@@ -29,13 +29,14 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-        return httpSecurity.authorizeHttpRequests(authorize -> authorize
+        return httpSecurity
+                .csrf().disable()
+                .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(freeResourceUrls)
                         .permitAll()
                         .anyRequest().authenticated())
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()))
-                .csrf(csrf -> csrf.disable());
                 .build();
     }
 
