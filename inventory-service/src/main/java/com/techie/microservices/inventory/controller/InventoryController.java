@@ -16,4 +16,16 @@ public class InventoryController {
     public boolean isInStock(@RequestParam String skuCode, @RequestParam Integer quantity) {
         return inventoryService.isInStock(skuCode, quantity);
     }
+
+    @PostMapping("/add")
+    @ResponseStatus(HttpStatus.OK)
+    public void updateInventoryOnProductCreation(@RequestParam String skuCode, @RequestParam Integer quantity) {
+        inventoryService.updateInventoryOnProductCreation(skuCode, quantity);
+    }
+
+    @PostMapping("/remove")
+    @ResponseStatus(HttpStatus.OK)
+    public boolean updateInventoryOnOrderPlaced(@RequestParam String skuCode, @RequestParam Integer orderQuantity) {
+        return inventoryService.updateInventoryOnOrderPlaced(skuCode, orderQuantity);
+    }
 }
