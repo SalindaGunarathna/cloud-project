@@ -64,14 +64,6 @@ cd api-gateway && mvn spring-boot:run
 - Full observability stack
 - Automated CI/CD pipeline
 
-## API Endpoints
-
-```
-POST /api/orders          # Create order
-GET  /api/orders/{id}     # Get order
-GET  /api/products        # List products
-GET  /api/inventory/{id}  # Check stock
-```
 
 ## Tech Stack
 
@@ -85,7 +77,7 @@ GET  /api/inventory/{id}  # Check stock
 University of Ruhuna - Department of Computer Engineering  
 **Course:** EC7205 Cloud Computing
 
-- EG/2020/4030 - Kumanayake H.P.
 - EG/2020/3945 - Gunarathne K.M.W.G.S.L.
+- EG/2020/4030 - Kumanayake H.P.
 - EG/2020/4247 - Udayanthika K.D.S.
 - EG/2020/4254 - Virajani M.Y.
