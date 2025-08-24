@@ -27,7 +27,7 @@ public class NotificationService {
             messageHelper.setText(String.format("""
                              Hello %s %s,
                             
-                                    Thank you for shopping with Spring Shop!\s
+                                    Thank you for shopping with Shopeez!\s
                                     Your order #%s has been successfully placed and is being processed.
                             
                                     We appreciate your business and will notify you once your order is shipped.
