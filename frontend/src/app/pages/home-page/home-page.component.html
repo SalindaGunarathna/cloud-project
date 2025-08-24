@@ -1,7 +1,7 @@
 <main class="min-h-screen relative">
   <!-- Full Screen Background Image -->
   <div class="fixed inset-0 z-0">
-    <div class="absolute inset-0 bg-cover bg-center bg-no-repeat" 
+    <div class="absolute inset-0 bg-cover bg-center bg-no-repeat"
          style="background-image: url('/assets/background.jpg');">
       <div class="absolute inset-0 bg-black bg-opacity-30"></div>
     </div>
@@ -70,18 +70,18 @@
             <li class="mb-4 p-6 bg-transparent border border-gray-200 rounded-lg shadow-lg flex justify-between items-center backdrop-blur-sm">
               <div class="flex-1 grid grid-cols-4 gap-4 items-center">
                 <div class="col-span-2">
-                  <span class="font-semibold text-lg text-gray-800">{{ product.name }}</span>
+                  <span class="font-semibold text-lg text-white">{{ product.name }}</span>
                 </div>
-                <div class="text-gray-900">
+                <div class="text-white">
                   <span class="font-medium">Price: ${{ product.price }}</span>
                 </div>
                 <div class="flex items-center space-x-2">
-                  <label class="text-sm font-medium text-gray-700">Quantity:</label>
-                  <input type="number" 
-                         #quantityInput 
+                  <label class="text-sm font-medium text-purple-400">Quantity:</label>
+                  <input type="number"
+                         #quantityInput
                          class="w-20 px-2 py-1 border border-gray-300 rounded-md text-center focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                          min="1"
-                         placeholder="1"/>
+                         placeholder="-"/>
                 </div>
               </div>
               <button class="ml-6 bg-gradient-to-r from-blue-500 to-purple-600 text-white px-6 py-3 rounded-lg hover:from-blue-600 hover:to-purple-700 transform hover:scale-105 transition-all duration-200 shadow-lg font-medium"
