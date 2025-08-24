@@ -52,7 +52,7 @@ cd api-gateway && mvn spring-boot:run
 
 ## Architecture Diagram
 
-![Architecture Diagram](docs/architecture.png)
+![Architecture Diagram](architecture.png)
 
 
 ## Key Features
