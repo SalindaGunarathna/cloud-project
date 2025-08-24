@@ -1,3 +1,6 @@
+
+
+# === Pull required Docker images ===
 docker pull mongo:7.0.5
 docker pull mysql:8.3.0
 docker pull confluentinc/cp-zookeeper:7.5.0
