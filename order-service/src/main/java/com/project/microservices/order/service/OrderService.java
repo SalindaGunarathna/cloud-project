@@ -31,6 +31,7 @@ public class OrderService {
             order.setSkuCode(orderRequest.skuCode());
             order.setQuantity(orderRequest.quantity());
             orderRepository.save(order);
+            boolean inventoryUpdated = inventoryClient.removeProduct(orderRequest.skuCode(), orderRequest.quantity());
 
             // Send the message to Kafka Topic
             OrderPlacedEvent orderPlacedEvent = new OrderPlacedEvent();
@@ -40,7 +41,7 @@ public class OrderService {
             orderPlacedEvent.setLastName(orderRequest.userDetails().lastName());
             log.info("Start - Sending OrderPlacedEvent {} to Kafka topic order-placed", orderPlacedEvent);
             kafkaTemplate.send("order-placed", orderPlacedEvent);
-            log.info(" OrderPlacedEvent {} to Kafka topic order-placed successfull ", orderPlacedEvent);
+            log.info("End - Sending OrderPlacedEvent {} to Kafka topic order-placed", orderPlacedEvent);
         } else {
             throw new RuntimeException("Product with SkuCode " + orderRequest.skuCode() + " is not in stock");
         }
