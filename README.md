@@ -50,11 +50,10 @@ cd notification-service && mvn spring-boot:run
 cd api-gateway && mvn spring-boot:run
 ```
 
-## Access Points
+## Architecture Diagram
 
-- **Application:** `http://localhost:8080`
-- **Grafana:** `http://localhost:3000` (admin/admin)
-- **Keycloak:** `http://localhost:8080/auth`
+![Architecture Diagram](docs/architecture.png)
+
 
 ## Key Features
 
