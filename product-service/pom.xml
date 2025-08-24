@@ -96,12 +96,12 @@
         <dependency>
             <groupId>io.mongock</groupId>
             <artifactId>mongock-springboot</artifactId>
-            <version>5.5.0</version>
+            <version>5.2.4</version>
         </dependency>
         <dependency>
             <groupId>io.mongock</groupId>
             <artifactId>mongodb-springdata-v4-driver</artifactId>
-            <version>5.5.0</version>
+            <version>5.2.4</version>
         </dependency>
 
 
