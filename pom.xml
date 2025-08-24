@@ -28,42 +28,14 @@
   </properties>
   <build>
     <plugins>
-<!--      <plugin>-->
-<!--        <groupId>org.springframework.boot</groupId>-->
-<!--        <artifactId>spring-boot-maven-plugin</artifactId>-->
-<!--        <configuration>-->
-<!--          <image>-->
-<!--            <name>saiupadhyayula007/new-${project.artifactId}</name>-->
-<!--            <builder>dashaun/builder:tiny</builder>-->
-<!--            <publish>false</publish>-->
-<!--          </image>-->
-<!--&lt;!&ndash;          <docker>&ndash;&gt;-->
-<!--&lt;!&ndash;            <publishRegistry>&ndash;&gt;-->
-<!--&lt;!&ndash;              <username>saiupadhyayula007</username>&ndash;&gt;-->
-<!--&lt;!&ndash;              <password>${dockerPassword}</password>&ndash;&gt;-->
-<!--&lt;!&ndash;            </publishRegistry>&ndash;&gt;-->
-<!--&lt;!&ndash;          </docker>&ndash;&gt;-->
-<!--          <excludes>-->
-<!--            <exclude>-->
-<!--              <groupId>org.projectlombok</groupId>-->
-<!--              <artifactId>lombok</artifactId>-->
-<!--            </exclude>-->
-<!--          </excludes>-->
-<!--        </configuration>-->
-<!--      </plugin>-->
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
         <configuration>
           <image>
-            <!-- This names the image. You can remove 'saiupadhyayula007/' if you don't want a username prefix for local images. -->
             <name>salindadocker/project-${project.artifactId}</name>
-            <!-- This builder is crucial for Apple Silicon machines to ensure architecture compatibility. -->
-<!--            <builder>dashaun/builder:tiny</builder>-->
-            <!-- Set to false to build images locally without pushing to Docker Hub. -->
             <publish>false</publish>
           </image>
-          <!-- The <docker> section can remain commented out or be removed, as <publish>false</publish> handles the push. -->
         </configuration>
       </plugin>
     </plugins>
