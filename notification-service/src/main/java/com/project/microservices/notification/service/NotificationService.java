@@ -23,14 +23,18 @@ public class NotificationService {
             MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
             messageHelper.setFrom("springshop@email.com");
             messageHelper.setTo(orderPlacedEvent.getEmail().toString());
-            messageHelper.setSubject(String.format("Your Order with OrderNumber %s is placed successfully", orderPlacedEvent.getOrderNumber()));
+            messageHelper.setSubject(String.format("Order Confirmation - #%s", orderPlacedEvent.getOrderNumber()));
             messageHelper.setText(String.format("""
-                            Hi %s,%s
-
-                            Your order with order number %s is now placed successfully.
+                             Hello %s %s,
                             
-                            Best Regards
-                            Spring Shop
+                                    Thank you for shopping with Spring Shop!\s
+                                    Your order #%s has been successfully placed and is being processed.
+                            
+                                    We appreciate your business and will notify you once your order is shipped.
+                                    Pleasure doing business with you!
+                            
+                                    Warm regards,
+                                    Shopeez Team
                             """,
                     orderPlacedEvent.getFirstName().toString(),
                     orderPlacedEvent.getLastName().toString(),
