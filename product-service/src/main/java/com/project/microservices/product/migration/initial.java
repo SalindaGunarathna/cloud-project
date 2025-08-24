@@ -56,14 +56,5 @@ public class initial {
         }
     }
 
-    @ChangeSet(order = "002", id = "create-product-indexes", author = "developer")
-    public void createProductIndexes(ProductRepository productRepository) {
-        log.info("Creating indexes for products collection...");
 
-        productRepository.findAll();
-
-
-
-        log.info("Product indexes created successfully");
-    }
 }
