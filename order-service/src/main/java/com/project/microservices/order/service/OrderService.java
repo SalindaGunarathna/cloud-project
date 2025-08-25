@@ -31,6 +31,7 @@ public class OrderService {
             order.setSkuCode(orderRequest.skuCode());
             order.setQuantity(orderRequest.quantity());
             orderRepository.save(order);
+            // check stock
             boolean inventoryUpdated = inventoryClient.removeProduct(orderRequest.skuCode(), orderRequest.quantity());
 
             // Send the message to Kafka Topic
