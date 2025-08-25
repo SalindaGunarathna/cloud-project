@@ -61,6 +61,7 @@ export class HomePageComponent implements OnInit {
         this.orderFailed = true;
         this.orderSuccess = false;
         this.quantityIsNull = true;
+        this.hideNotificationsAfterDelay();
       } else {
         const order: Order = {
           skuCode: product.skuCode,
@@ -71,10 +72,20 @@ export class HomePageComponent implements OnInit {
 
         this.orderService.orderProduct(order).subscribe(() => {
           this.orderSuccess = true;
+          this.hideNotificationsAfterDelay();
         }, error => {
           this.orderFailed = true;
+          this.hideNotificationsAfterDelay();
         })
       }
     })
+  }
+
+  private hideNotificationsAfterDelay(): void {
+    setTimeout(() => {
+      this.orderSuccess = false;
+      this.orderFailed = false;
+      this.quantityIsNull = false;
+    }, 5000); // 5 seconds
   }
 }

@@ -85,6 +85,11 @@ spec:
                 configMapKeyRef:
                   key: MANAGEMENT_ZIPKIN_TRACING_ENDPOINT
                   name: common-config
+            - name: INVENTORY_SERVICE_URL
+              valueFrom:
+                configMapKeyRef:
+                  key: INVENTORY_SERVICE_URL
+                  name: common-config
             # Enable Spring Boot health probes
             - name: MANAGEMENT_ENDPOINT_HEALTH_PROBES_ENABLED
               value: "true"
