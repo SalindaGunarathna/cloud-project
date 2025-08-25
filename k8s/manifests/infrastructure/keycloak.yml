@@ -19,12 +19,6 @@ spec:
             - containerPort: 8080
           args: ["start-dev", "--import-realm"]
           env:
-            - name: KC_PROXY
-              value: "edge"
-            - name: KC_HOSTNAME
-              value: "keycloak.localdev.me"  # or "auth.example.local"
-            - name: KC_HTTP_ENABLED
-              value: "true"
             - name: DB_VENDOR
               valueFrom:
                 configMapKeyRef:
