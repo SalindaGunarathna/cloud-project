@@ -32,7 +32,7 @@
       <jdbc-url>jdbc:mysql://localhost:3306</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
-    <data-source source="LOCAL" name="@localhost [3]" uuid="31216bc3-d06c-4bfe-9b29-7ef4516ad9ad">
+    <data-source source="LOCAL" name="@localhost [3]" uuid="9f372e06-7ce3-4fe8-8edc-77a1c08b490e">
       <driver-ref>mongo</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.dbschema.MongoJdbcDriver</jdbc-driver>
