@@ -41,7 +41,7 @@ cd frontend
 npm install
 npm run start
 ```
-# Start Kind Cluster
+### Start Kind Cluster
     
 Run the k8s/kind/create-kind-cluster.sh script to create the kind Kubernetes cluster
 
@@ -50,7 +50,7 @@ Run the k8s/kind/create-kind-cluster.sh script to create the kind Kubernetes clu
 ```
 This will create a kind cluster and pre-load all the required docker images into the cluster, this will save you time downloading the images when you deploy the application.
 
-# Deploy the infrastructure
+### Deploy the infrastructure
 
 Run the k8s/manisfests/infrastructure.yaml file to deploy the infrastructure
 
@@ -58,7 +58,7 @@ Run the k8s/manisfests/infrastructure.yaml file to deploy the infrastructure
 kubectl apply -f k8s/manifests/infrastructure/
 ```
 
-# Deploy the services
+### Deploy the services
 
 Run the k8s/manifests/applications.yaml file to deploy the services
 
@@ -66,7 +66,7 @@ Run the k8s/manifests/applications.yaml file to deploy the services
 kubectl apply -f k8s/manifests/applications/
 ```
 
-# Check deployment
+### Check deployment
 kubectl get pods
 ```
 
