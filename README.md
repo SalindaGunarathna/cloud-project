@@ -26,11 +26,45 @@ A microservices-based e-commerce platform built with Spring Boot, Kubernetes, an
 git clone https://github.com/SalindaGunarathna/cloud-project.git
 cd cloud-project
 
-# Start infrastructure
-docker-compose up -d
+# How to run the frontend application
 
-# Deploy to Kubernetes
-kubectl apply -f k8s/
+Make sure you have the following installed on your machine:
+
+- Node.js
+- NPM
+- Angular CLI
+
+Run the following commands to start the frontend application
+
+```shell
+cd frontend
+npm install
+npm run start
+```
+# Start Kind Cluster
+    
+Run the k8s/kind/create-kind-cluster.sh script to create the kind Kubernetes cluster
+
+```shell
+./k8s/kind/create-kind-cluster.sh
+```
+This will create a kind cluster and pre-load all the required docker images into the cluster, this will save you time downloading the images when you deploy the application.
+
+# Deploy the infrastructure
+
+Run the k8s/manisfests/infrastructure.yaml file to deploy the infrastructure
+
+```shell
+kubectl apply -f k8s/manifests/infrastructure.yaml
+```
+
+# Deploy the services
+
+Run the k8s/manifests/applications.yaml file to deploy the services
+
+```shell
+kubectl apply -f k8s/manifests/applications.yaml
+```
 
 # Check deployment
 kubectl get pods
