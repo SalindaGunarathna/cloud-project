@@ -55,7 +55,7 @@ This will create a kind cluster and pre-load all the required docker images into
 Run the k8s/manisfests/infrastructure.yaml file to deploy the infrastructure
 
 ```shell
-kubectl apply -f k8s/manifests/infrastructure.yaml
+kubectl apply -f k8s/manifests/infrastructure/
 ```
 
 # Deploy the services
@@ -63,7 +63,7 @@ kubectl apply -f k8s/manifests/infrastructure.yaml
 Run the k8s/manifests/applications.yaml file to deploy the services
 
 ```shell
-kubectl apply -f k8s/manifests/applications.yaml
+kubectl apply -f k8s/manifests/applications/
 ```
 
 # Check deployment
