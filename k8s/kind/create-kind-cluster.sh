@@ -1,4 +1,4 @@
-
+#!/bin/bash
 
 echo "=== Starting Kind Cluster ==="
 
@@ -10,3 +10,4 @@ chmod +x ./kind-load.sh
 ./kind-load.sh
 
 echo "=== Kind Cluster Started ==="
+

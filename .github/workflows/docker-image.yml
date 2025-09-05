@@ -2,9 +2,9 @@ name: Selective Docker Image CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "data-init-producr-service" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "data-init-producr-service" ]
 
 jobs:
   # Job to detect which services have changed

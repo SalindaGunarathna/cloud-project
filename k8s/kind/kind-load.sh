@@ -1,4 +1,4 @@
-#!/bin/bash
+
 
 # === Pull required Docker images ===
 docker pull mongo:7.0.5
