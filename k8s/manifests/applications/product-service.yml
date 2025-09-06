@@ -20,6 +20,13 @@ spec:
       labels:
         app: product-service
     spec:
+      initContainers:
+        - name: wait-for-mongodb
+          image: busybox
+          command: [ "sh", "-c", "until nc -z mongodb.default.svc.cluster.local 27017; do echo waiting for mongodb; sleep 2; done;" ]
+        - name: wait-for-inventory
+          image: busybox
+          command: [ "sh", "-c", "until nc -z inventory-service.default.svc.cluster.local:8082; do echo waiting for inventory; sleep 2; done;" ]
       containers:
         - name: product-service
           image: salindadocker/project-product-service:latest
