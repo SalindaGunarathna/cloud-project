@@ -21,7 +21,7 @@ A microservices-based e-commerce platform built with Spring Boot, Kubernetes, an
 ---
 ## Architecture Diagram
 
-![Architecture Diagram](Architecture-digrame.png)
+![Architecture Diagram](Architecture-digram.png)
 
 ## Key Features
 
