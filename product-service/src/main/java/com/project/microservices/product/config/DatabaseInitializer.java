@@ -57,10 +57,34 @@ public class DatabaseInitializer implements CommandLineRunner {
 
     private List<ProductData> createInitialProductsData() {
         return List.of(
-                new ProductData("test", "preducat1", "l-33", BigDecimal.valueOf(123), 10),
-                new ProductData("gg", "llll", "l-44", BigDecimal.valueOf(555), 15),
-                new ProductData("Premium Widget", "High-quality widget for advanced users", "l-55", BigDecimal.valueOf(299.99), 5),
-                new ProductData("Basic Tool", "Essential tool for everyday use", "l-66", BigDecimal.valueOf(49.99), 25)
+                new ProductData(
+                        "Laptop",
+                        "14-inch business laptop with Intel i5 processor and 8GB RAM",
+                        "L-1001",
+                        BigDecimal.valueOf(750.00),
+                        12
+                ),
+                new ProductData(
+                        "Smartphone",
+                        "6.5-inch AMOLED display, 128GB storage, dual SIM",
+                        "S-2002",
+                        BigDecimal.valueOf(499.99),
+                        30
+                ),
+                new ProductData(
+                        "Wireless Headphones",
+                        "Noise-cancelling over-ear headphones with 30-hour battery life",
+                        "H-3003",
+                        BigDecimal.valueOf(199.99),
+                        20
+                ),
+                new ProductData(
+                        "Mechanical Keyboard",
+                        "RGB backlit keyboard with tactile switches",
+                        "K-4004",
+                        BigDecimal.valueOf(89.99),
+                        40
+                )
         );
     }
 
